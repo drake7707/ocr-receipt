@@ -12,6 +12,30 @@ Due to the use of Canny and automatic threshold selection (and a wide variety of
 
 High resolution preview applies the warp perspective and thresholding on the full HD image, which might be slow on your phone but will show a better resolution output. Running the OCR is done on the high res image anyway so it only matters for the preview.
 
+## Algorithm
+
+1.  Grayscale
+
+2. Enhance contrast
+
+3. Canny 
+
+4. Morphologic close (dilate & erode) 
+
+5. Trace contours 
+
+6. Find best rectangular area
+
+7. Find the 4 corners of rectangular-ish polygon 
+
+8. Warp perspective to correct it 
+
+9. Apply NICK thresholding to have better results with tesseract OCR
+
+10. Do the OCR (only done after clicking/tapping the output because it's not real time)
+
+Everything except the OCR process with Tesseract JS has been implemented by myself to have fine grained control and reduce any overhead
+
 ## Screenshot
 
 ![](https://i.imgur.com/QheJySX.png)
