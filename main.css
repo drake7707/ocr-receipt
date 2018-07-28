@@ -1,0 +1,42 @@
+* {
+    font-family: Verdana;
+    font-size: 8pt;
+}
+#txtOutput {
+    width: 100%;
+    height:300px;
+}
+
+.panel {
+    border:1px solid #AAA;
+    padding:2px;
+    margin:2px;
+}
+
+.panel-header {
+    width:100%;
+    text-align:center;
+}
+
+#videoElement, #output,#warpPerspectiveResult, #videoContainer, #videoOverlay {
+    max-height:400px;
+}
+
+#videoContainerWrapper {
+    position:relative;
+}
+
+#videoContainerWrapper > * {
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
+#toggleDebug {
+    margin:5px;
+    padding:5px;
+}
+
+#debugstuff {
+    display:none;
+}

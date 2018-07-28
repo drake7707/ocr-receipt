@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <title>OCR Receipt</title>
+    <link rel='stylesheet' href='main.css' />
+    <script src='https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js'></script>
+
+</head>
+
+<body>
+    <p>This looks up the biggest rectangular area and rectifies it. Tapping/clicking on the output will start the OCR process with Tesseract JS. Tapping/touching the video pauses/resumes.</p>
+    <div class="panel">
+        <div class="panel-header">Input</div>
+        <div id="videoContainer">
+            <div id="videoContainerWrapper">
+                <video autoplay id="videoElement">
+                </video>
+                <canvas id="videoOverlay"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">Output</div>
+        <canvas id="output"></canvas>
+        <br/>
+        <progress id="barOCR" value="0"></progress>
+        <br/>
+        <textarea id="txtOutput">
+
+        </textarea>
+    </div>
+    
+    <hr/>
+    <hr/>
+    <button id="toggleDebug">Toggle debug</button>
+    
+    <div id="debugstuff">
+        <div class="panel">
+            <div class="panel-header">Timing</div>
+            <span id="txt"></span>
+        </div>
+        <br/>
+        <div class="panel">
+            <div class="panel-header">Pre canny</div>
+            <canvas id="preCanny"></canvas>
+            <canvas id="histogram" width="256" height="256"></canvas>
+        </div>
+        <div class="panel">
+            <div class="panel-header">Post canny</div>
+            <canvas id="postCanny"></canvas>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Dilate & erode (closing)</div>
+            <canvas id="morph"></canvas>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Finding best contour</div>
+            <canvas id="contourResult"></canvas>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Warped perspective</div>
+            <canvas id="warpPerspectiveResult"></canvas>
+        </div>
+
+
+        <!--<img id="img" style="display:none" src="https://i.imgur.com/vx1C7vl.png" crossorigin="anonymous">-->
+        <img id="img" style="display:none" src="https://i.imgur.com/kv9LgAj.png" crossorigin="anonymous">
+    </div>
+
+    <script src='main.js'></script>
+</body>
+
+</html>
