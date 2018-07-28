@@ -212,9 +212,15 @@ class GUI {
 
                     GUI.drawExtractedResultOnOverlay(extractResult);
 
-                    // warp the smaller canvas to the output. When the OCR process is started the cached lastFullCanvasImage will be used
-                    // to warp & threshold for better quality
-                    let warpResult = Algorithm.warpExtractedResultAndPrepareForOCR(GUI.smallCanvas, targetCanvas, extractResult, GUI.warpSettings, GUI.debug)
+                    let warpResult: Algorithm.WarpAndPrepareResult;
+                    if ((<HTMLInputElement>document.getElementById("chkHighRes")).checked) {
+                        warpResult = Algorithm.warpExtractedResultAndPrepareForOCR(GUI.fullCanvas, targetCanvas, extractResult, GUI.warpSettings, GUI.debug);
+                    }
+                    else {
+                        // warp the smaller canvas to the output. When the OCR process is started the cached lastFullCanvasImage will be used
+                        // to warp & threshold for better quality
+                        warpResult = Algorithm.warpExtractedResultAndPrepareForOCR(GUI.smallCanvas, targetCanvas, extractResult, GUI.warpSettings, GUI.debug);
+                    }
 
                     document.getElementById("txt").innerHTML = extractResult.timing.concat(warpResult.timing).join("<br/>");
                 }
@@ -1094,7 +1100,7 @@ namespace ContourOps {
         }
 
         // contour 
-        let getX = function(pos: Position, dir: Direction) {
+        let getX = function (pos: Position, dir: Direction) {
             switch (dir) {
                 case Direction.Top:
                     switch (pos) {
@@ -1147,7 +1153,7 @@ namespace ContourOps {
             }
             return 0;
         };
-        let getY = function(pos: Position, dir: Direction) {
+        let getY = function (pos: Position, dir: Direction) {
             switch (dir) {
                 case Direction.Top:
                     switch (pos) {
@@ -1201,7 +1207,7 @@ namespace ContourOps {
             return 0;
         };
 
-        let getDirection = function(pos: Position, dir: Direction): Direction {
+        let getDirection = function (pos: Position, dir: Direction): Direction {
             switch (dir) {
                 case Direction.Top:
                     switch (pos) {
@@ -1463,7 +1469,7 @@ namespace ContourOps {
         }
 
 
-        points.sort(function(a, b) {
+        points.sort(function (a, b) {
             return a[0] == b[0] ? a[1] - b[1] : a[0] - b[0];
         });
 
