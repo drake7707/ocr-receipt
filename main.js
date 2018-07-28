@@ -1,4 +1,3 @@
-/// <reference path="https://rawgit.com/DefinitelyTyped/DefinitelyTyped/354cec620daccfa0ad167ba046651fb5fef69e8a/types/tesseract.js/index.d.ts"/>
 /**
  *  Class that keeps track of image buffers
  *  By reusing previously used buffers the garbage collection is almost completely removed
@@ -141,9 +140,15 @@ var GUI = /** @class */ (function () {
                     }
                     GUI.lastFullCanvasImage.getContext("2d").drawImage(GUI.fullCanvas, 0, 0, GUI.fullCanvas.width, GUI.fullCanvas.height);
                     GUI.drawExtractedResultOnOverlay(extractResult);
-                    // warp the smaller canvas to the output. When the OCR process is started the cached lastFullCanvasImage will be used
-                    // to warp & threshold for better quality
-                    var warpResult = Algorithm.warpExtractedResultAndPrepareForOCR(GUI.smallCanvas, targetCanvas, extractResult, GUI.warpSettings, GUI.debug);
+                    var warpResult = void 0;
+                    if (document.getElementById("chkHighRes").checked) {
+                        warpResult = Algorithm.warpExtractedResultAndPrepareForOCR(GUI.fullCanvas, targetCanvas, extractResult, GUI.warpSettings, GUI.debug);
+                    }
+                    else {
+                        // warp the smaller canvas to the output. When the OCR process is started the cached lastFullCanvasImage will be used
+                        // to warp & threshold for better quality
+                        warpResult = Algorithm.warpExtractedResultAndPrepareForOCR(GUI.smallCanvas, targetCanvas, extractResult, GUI.warpSettings, GUI.debug);
+                    }
                     document.getElementById("txt").innerHTML = extractResult.timing.concat(warpResult.timing).join("<br/>");
                 }
                 else
@@ -544,7 +549,7 @@ var Algorithm;
                     closeToBorderPointCount++;
             }
             // todo put the close to border count in settings
-            if (closeToBorderPointCount < 100) {
+            if (closeToBorderPointCount < 100) { // make sure that nothing encroaches the border because then the contour is a significant chunk of  full image, which is not what it usually is
                 if (area / hullarea > settings.contourAreaToHullAreaMinimumRatio) {
                     if (Math.abs(area) > width * height * settings.contourMininumAreaPercentage) {
                         var x0 = rawContour[0] % width;
@@ -558,7 +563,7 @@ var Algorithm;
                             // and all angles are always >= 80°
                             if (angles.filter(function (a) { return a < settings.contourPointsMinimumAngleBetweenPoints || a > 360 - settings.contourPointsMinimumAngleBetweenPoints; }).length == 0) {
                                 var cornerPoints = ContourOps.findCorners(rawContour, width);
-                                if (cornerPoints.length == 4) {
+                                if (cornerPoints.length == 4) { // 4 corners spaced far enough in angle from the center
                                     if (area > maxArea) {
                                         bestContour = rawContour;
                                         bestContourHull = hull;
@@ -1293,7 +1298,7 @@ var ImageOps;
         var count = 0;
         for (var i = 0; i < buckets.length; i++) {
             count += buckets[i];
-            if (count >= halfPoint) {
+            if (count >= halfPoint) { // median falls inside the current bucket
                 median = i;
                 break;
             }
@@ -2094,9 +2099,9 @@ var Canny;
                 }
                 else if (angr > oct3 && angr <= oct5) {
                     // vertical
-                    var top = mags[(magIdx - width)];
+                    var top_1 = mags[(magIdx - width)];
                     var bottom = mags[(magIdx + width)];
-                    if (mag > top && mag > bottom)
+                    if (mag > top_1 && mag > bottom)
                         dst[dataIdx] = 255;
                     else
                         dst[dataIdx] = 0;
@@ -2366,4 +2371,3 @@ function testNICKThreshold() {
         });
     };
 }
-//# sourceMappingURL=main.js.map
