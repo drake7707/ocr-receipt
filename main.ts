@@ -2383,6 +2383,18 @@ namespace PerspectiveOps {
         return matrixMultiply(d, matrixAdjugate(s));
     }
 
+    
+    export function matrixDeterminant(m: Matrix): number {
+        return m[0] * m[4] * m[8] + m[1] * m[5] * m[6] + m[2] * m[3] * m[7] - m[2] * m[4] * m[6] - m[1] * m[3] * m[8] - m[0] * m[5] * m[7];
+    }
+
+    export function matrixInverse(m: Matrix): Matrix {
+        const det = matrixDeterminant(m);
+        const adj = matrixAdjugate(m);
+        for (let i = 0; i < m.length; i++)
+            adj[i] = adj[i] * 1 / det;
+        return adj;
+    }
 
     function project(m: Matrix, x: number, y: number) {
         var v = multiplyMatrixVector(m, [x, y, 1]);
